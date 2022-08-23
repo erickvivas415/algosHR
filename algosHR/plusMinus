@@ -1,0 +1,32 @@
+// PlusMinus
+
+function plusMinus(arr) {
+    // Write your code here
+    var positives = 0;
+    var negatives = 0;
+    var zeros = 0;
+    var total = arr.length;
+    
+    for(var i=0;i<arr.length;i++) {
+        if(arr[i]>0){
+            positives++;
+        }
+        else if(arr[i]<0) {
+            negatives++;
+        }
+        else {
+            zeros++
+        }
+    }
+    console.log(positives);
+
+    var ratioP = positives/total;
+    var ratioN = negatives/total;
+    var ratioZ = zeros/total
+    
+    console.log(ratioP.toFixed(6));
+    console.log(ratioN.toFixed(6));
+    console.log(ratioZ.toFixed(6));
+}
+
+plusMinus([-4,3,2,-2,0]);
