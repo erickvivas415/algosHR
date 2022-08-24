@@ -13,3 +13,5 @@ function diagonalDifference(arr) {
     var difference = leftSum-rightSum;
     return Math.abs(difference);
 }
+
+console.log(diagonalDifference([5,2,3,],[1,2,3],[2,2,2]))
