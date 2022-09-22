@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> 
+</head>
+<body>
+    
+    <h1>CodingDojo Wall</h1>
+    <h1>Welcome, {{user.first_name}}!</h1>
+    <a href="/logout">Log Off</a>
+    <form action="/postMessage" method="POST">
+        {% csrf_token %}
+        <label for="post_message">Post a message:</label>
+        <input type="text" id="post_message" name="post_message" id="post_message" style="height:120px; width:400px;">
+        <button type="submit">Post a message</button>
+    </form>
+    {% for message in user_messages %}
+        {% load tz %}
+        {% localtime on %}
+        <p>{{message.user.first_name}} {{message.user.last_name}} - {{ message.created_at.date }}</p>
+        <p>{{message.message}}</p>
+        {% if message.user == user %}
+            <form action="/deleteMessage" method="POST">
+                {% csrf_token %}
+                <input type="hidden" id="Dmessage_id" name="Dmessage_id" value="{{message.id}}">
+                <button type="submit">Delete Message</button>
+            </form>
+        {% endif %}
+        {% for comment1 in message.post_comments.all %}
+            <form action="/deleteComment" method="POST">
+                {% csrf_token %}
+                <p class="commentsMade">{{comment1.user.first_name}} {{comment1.user.last_name}} - {{ comment1.created_at.date }}</p>
+                <p class="commentsMade">{{comment1.comment}}</p>
+                <input type="hidden" id="comment_id" name="comment_id" value="{{comment1.id}}">
+                <button class="commentsMade" type="submit">Delete comment</button>
+            </form>
+        {% endfor %}
+        {% endlocaltime %}
+        <form action="/postComment" method="POST">
+            {% csrf_token %}
+            <label for="post_comment">Post a comment:</label>
+            <input type="text" id="post_comment" name="post_comment" id="post_comment" style="height:20px; width:400px;">
+            <input type="hidden" id="message_id" name="message_id" value="{{message.id}}">
+            <button type="submit">Post a comment</button>
+        </form>
+    {% endfor %}
+    <p>Successfully registered (or logged in)!</p>
+    <a href="/dashboard">Dashboard</a>
+</body>
+</html>
